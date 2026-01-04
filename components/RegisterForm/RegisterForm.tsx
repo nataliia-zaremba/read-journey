@@ -1,10 +1,17 @@
+"use client";
+
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Link from "next/link";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks";
+import { registerUser } from "@/lib/redux/authSlice";
+import Logo from "@/components/Logo/Logo";
 import styles from "./RegisterForm.module.css";
 
-// Схема валідації
 const registerSchema = yup
   .object({
     name: yup.string().required("Name is required"),
@@ -22,6 +29,11 @@ const registerSchema = yup
 type RegisterFormData = yup.InferType<typeof registerSchema>;
 
 export default function RegisterForm() {
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const { isAuthenticated, isLoading } = useAppSelector((state) => state.auth);
+  const [showPassword, setShowPassword] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -30,91 +42,108 @@ export default function RegisterForm() {
     resolver: yupResolver(registerSchema),
   });
 
-  const onSubmit = async (data: RegisterFormData) => {
-    try {
-      console.log("Form data:", data);
-      // TODO: Відправка на backend
-      // const response = await fetch('/api/auth/register', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(data),
-      // });
-
-      // TODO: Обробка відповіді та редірект на /recommended
-    } catch (error) {
-      console.error("Registration error:", error);
-      // TODO: Показати notification з помилкою
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.push("/recommended");
     }
+  }, [isAuthenticated, router]);
+
+  const onSubmit = async (data: RegisterFormData) => {
+    await dispatch(registerUser(data));
   };
 
   return (
     <div className={styles.container}>
-      <div className={styles.formWrapper}>
-        <h1 className={styles.title}>
-          Expand your mind, reading{" "}
-          <span className={styles.titleAccent}>a book</span>
-        </h1>
-
-        <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-          <div className={styles.inputGroup}>
-            <label htmlFor="name" className={styles.label}>
-              Name:
-            </label>
-            <input
-              id="name"
-              type="text"
-              placeholder="Ilona Bazulchuk"
-              className={styles.input}
-              {...register("name")}
-            />
-            {errors.name && (
-              <span className={styles.error}>{errors.name.message}</span>
-            )}
+      <div className={styles.leftSection}>
+        <div className={styles.formWrapper}>
+          <div className={styles.logoContainer}>
+            <Logo />
           </div>
 
-          <div className={styles.inputGroup}>
-            <label htmlFor="email" className={styles.label}>
-              Mail:
-            </label>
-            <input
-              id="email"
-              type="email"
-              placeholder="Your@email.com"
-              className={styles.input}
-              {...register("email")}
-            />
-            {errors.email && (
-              <span className={styles.error}>{errors.email.message}</span>
-            )}
-          </div>
+          <h1 className={styles.title}>
+            Expand your mind, reading{" "}
+            <span className={styles.titleAccent}>a book</span>
+          </h1>
 
-          <div className={styles.inputGroup}>
-            <label htmlFor="password" className={styles.label}>
-              Password:
-            </label>
-            <input
-              id="password"
-              type="password"
-              placeholder="Yourpasswordhere"
-              className={styles.input}
-              {...register("password")}
-            />
-            {errors.password && (
-              <span className={styles.error}>{errors.password.message}</span>
-            )}
-          </div>
+          <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+            <div className={styles.inputGroup}>
+              <input
+                id="name"
+                type="text"
+                placeholder="Name: Ilona Ratiushchuk"
+                className={styles.input}
+                {...register("name")}
+                disabled={isLoading}
+              />
+              {errors.name && (
+                <span className={styles.error}>{errors.name.message}</span>
+              )}
+            </div>
 
-          <button type="submit" className={styles.submitBtn}>
-            Registration
-          </button>
-        </form>
+            <div className={styles.inputGroup}>
+              <input
+                id="email"
+                type="email"
+                placeholder="Mail: Your@email.com"
+                className={styles.input}
+                {...register("email")}
+                disabled={isLoading}
+              />
+              {errors.email && (
+                <span className={styles.error}>{errors.email.message}</span>
+              )}
+            </div>
 
-        <p className={styles.linkText}>
-          Already have an account?{" "}
-          <Link href="/login" className={styles.link}>
-            Log In
-          </Link>
-        </p>
+            <div className={styles.inputGroup}>
+              <div className={styles.passwordWrapper}>
+                <input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Password: Yourpasswordhere"
+                  className={styles.input}
+                  {...register("password")}
+                  disabled={isLoading}
+                />
+                <button
+                  type="button"
+                  className={styles.eyeButton}
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? "👁️" : "👁️‍🗨️"}
+                </button>
+              </div>
+              {errors.password && (
+                <span className={styles.error}>{errors.password.message}</span>
+              )}
+            </div>
+
+            <button
+              type="submit"
+              className={styles.submitBtn}
+              disabled={isLoading}
+            >
+              {isLoading ? "Loading..." : "Registration"}
+            </button>
+          </form>
+
+          <p className={styles.linkText}>
+            Already have an account?{" "}
+            <Link href="/login" className={styles.link}>
+              Log In
+            </Link>
+          </p>
+        </div>
+      </div>
+
+      <div className={styles.rightSection}>
+        <Image
+          src="/iPhone 15 Black.png"
+          alt="Read Journey App"
+          width={400}
+          height={700}
+          priority
+          className={styles.phoneImage}
+        />
       </div>
     </div>
   );

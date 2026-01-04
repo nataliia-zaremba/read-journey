@@ -1,0 +1,40 @@
+.nav {
+  display: flex;
+  gap: 32px;
+}
+
+.link {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(249, 249, 249, 0.5);
+  text-decoration: none;
+  transition: color 0.3s;
+  position: relative;
+}
+
+.link:hover {
+  color: rgba(249, 249, 249, 0.8);
+}
+
+.link.active {
+  color: #f9f9f9;
+}
+
+.link.active::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #f9f9f9;
+  border-radius: 1px;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .nav {
+    flex-direction: column;
+    gap: 20px;
+  }
+}

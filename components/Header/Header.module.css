@@ -1,0 +1,41 @@
+.header {
+  background-color: #1f1f1f;
+  border-bottom: 1px solid rgba(249, 249, 249, 0.1);
+  padding: 20px 0;
+}
+
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rightSection {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+/* Tablet and Mobile */
+@media (max-width: 1024px) {
+  .rightSection {
+    gap: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 16px 0;
+  }
+
+  .container {
+    padding: 0 16px;
+  }
+
+  .rightSection {
+    gap: 20px;
+  }
+}
