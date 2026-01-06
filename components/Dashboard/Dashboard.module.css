@@ -1,0 +1,125 @@
+.dashboard {
+  width: 100%;
+  max-width: 350px;
+  background-color: #262626;
+  border-radius: 30px;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.workoutBlock {
+  padding: 20px;
+  background-color: #1c1c1c;
+  border-radius: 12px;
+}
+
+.workoutTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #f9f9f9;
+  margin-bottom: 20px;
+}
+
+.workoutList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.workoutItem {
+  display: flex;
+  gap: 12px;
+}
+
+.number {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  background-color: #f9f9f9;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+  color: #1c1c1c;
+}
+
+.workoutText {
+  font-size: 14px;
+  color: #f9f9f9;
+  line-height: 1.4;
+}
+
+.textMuted {
+  color: rgba(249, 249, 249, 0.5);
+}
+
+.libraryLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background-color: #1c1c1c;
+  border: 1px solid rgba(249, 249, 249, 0.2);
+  border-radius: 30px;
+  color: #f9f9f9;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.libraryLink:hover {
+  border-color: rgba(249, 249, 249, 0.4);
+  background-color: rgba(249, 249, 249, 0.05);
+}
+
+.quoteBlock {
+  padding: 20px;
+  background-color: #1c1c1c;
+  border-radius: 12px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.booksImage {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.quote {
+  font-size: 14px;
+  color: rgba(249, 249, 249, 0.7);
+  line-height: 1.4;
+}
+
+.quoteAccent {
+  color: rgba(249, 249, 249, 0.9);
+  font-weight: 500;
+}
+
+/* Tablet and Mobile */
+@media (max-width: 1024px) {
+  .dashboard {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 30px 16px;
+  }
+
+  .workoutBlock,
+  .quoteBlock {
+    padding: 16px;
+  }
+}
