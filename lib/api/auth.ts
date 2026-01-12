@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_BASE_URL = "https://readjourney.b.goit.study/api";
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL || "https://readjourney.b.goit.study/api";
 
 // Створюємо axios instance
 const api = axios.create({
@@ -13,9 +14,12 @@ const api = axios.create({
 // Інтерцептор для додавання токену до запитів
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+    // Перевірка на клієнтську сторону
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("token");
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
     }
     return config;
   },

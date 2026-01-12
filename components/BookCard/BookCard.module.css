@@ -1,0 +1,50 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: transform 0.3s;
+  width: 137px;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+.imageWrapper {
+  position: relative;
+  width: 137px;
+  height: 248px;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #262626;
+  margin-bottom: 8px;
+  flex-shrink: 0;
+}
+
+.image {
+  object-fit: cover;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 137px;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #f9f9f9;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.author {
+  font-size: 10px;
+  color: rgba(249, 249, 249, 0.5);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

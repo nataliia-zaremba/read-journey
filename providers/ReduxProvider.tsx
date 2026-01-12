@@ -3,7 +3,7 @@
 import { Provider } from "react-redux";
 import { store } from "@/lib/redux/store";
 import { useEffect } from "react";
-import { restoreSession } from "@/lib/redux/authSlice";
+import { restoreSession, getCurrentUser } from "@/lib/redux/authSlice";
 import { Toaster } from "react-hot-toast";
 
 export default function ReduxProvider({
@@ -13,7 +13,12 @@ export default function ReduxProvider({
 }) {
   useEffect(() => {
     // Відновлюємо сесію при завантаженні додатку
-    store.dispatch(restoreSession());
+    const token = localStorage.getItem("token");
+    if (token) {
+      store.dispatch(restoreSession());
+      // Завантажуємо дані користувача
+      store.dispatch(getCurrentUser());
+    }
   }, []);
 
   return (

@@ -1,17 +1,70 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "@/components/Header/Header";
 import Dashboard from "@/components/Dashboard/Dashboard";
+import BookCard from "@/components/BookCard/BookCard";
+import { booksAPI, Book } from "@/lib/api/books";
+import toast from "react-hot-toast";
 import styles from "./page.module.css";
 
 export default function RecommendedPage() {
+  const [books, setBooks] = useState<Book[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const [filters, setFilters] = useState({ title: "", author: "" });
 
+  // Завантаження книг
+  const fetchBooks = async (page: number, filterData = filters) => {
+    try {
+      setLoading(true);
+      const response = await booksAPI.getRecommended({
+        page,
+        limit: 10,
+        title: filterData.title,
+        author: filterData.author,
+      });
+
+      setBooks(response.results);
+      setTotalPages(response.totalPages);
+      setCurrentPage(response.page);
+    } catch (error: any) {
+      console.error("Error fetching books:", error);
+      toast.error("Failed to load books");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Завантаження при монтуванні
+  useEffect(() => {
+    fetchBooks(1);
+  }, []);
+
+  // Обробка фільтрів
   const handleFilter = (data: { title: string; author: string }) => {
     setFilters(data);
-    console.log("Filters applied:", data);
-    // TODO: Відправити запит на API з фільтрами
+    fetchBooks(1, data);
+  };
+
+  // Обробка пагінації
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      fetchBooks(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      fetchBooks(currentPage + 1);
+    }
+  };
+
+  // Обробка кліку по книзі
+  const handleBookClick = (book: Book) => {
+    console.log("Book clicked:", book);
+    // TODO: Відкрити модальне вікно з деталями
   };
 
   return (
@@ -25,7 +78,11 @@ export default function RecommendedPage() {
             <div className={styles.header}>
               <h1 className={styles.title}>Recommended</h1>
               <div className={styles.pagination}>
-                <button className={styles.arrowBtn} disabled>
+                <button
+                  className={styles.arrowBtn}
+                  onClick={handlePrevPage}
+                  disabled={currentPage === 1}
+                >
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                     <path
                       d="M12.5 15L7.5 10L12.5 5"
@@ -36,7 +93,11 @@ export default function RecommendedPage() {
                     />
                   </svg>
                 </button>
-                <button className={styles.arrowBtn}>
+                <button
+                  className={styles.arrowBtn}
+                  onClick={handleNextPage}
+                  disabled={currentPage === totalPages}
+                >
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                     <path
                       d="M7.5 15L12.5 10L7.5 5"
@@ -50,10 +111,25 @@ export default function RecommendedPage() {
               </div>
             </div>
 
-            <div className={styles.booksGrid}>
-              <p className={styles.placeholder}>Loading books...</p>
-              {/* TODO: Тут будуть картки книг */}
-            </div>
+            {loading ? (
+              <div className={styles.placeholder}>Loading books...</div>
+            ) : books.length > 0 ? (
+              <div className={styles.booksGrid}>
+                {books.map((book) => (
+                  <BookCard
+                    key={book._id}
+                    id={book._id}
+                    title={book.title}
+                    author={book.author}
+                    imageUrl={book.imageUrl}
+                    totalPages={book.totalPages}
+                    onClick={() => handleBookClick(book)}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className={styles.placeholder}>No books found</div>
+            )}
           </div>
         </div>
       </main>
