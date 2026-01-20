@@ -106,6 +106,120 @@
   font-weight: 500;
 }
 
+.recommendedBlock {
+  padding: 20px;
+  background-color: #1c1c1c;
+  border-radius: 12px;
+}
+
+.recommendedHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.recommendedTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: #f9f9f9;
+}
+
+.pagination {
+  display: flex;
+  gap: 8px;
+}
+
+.arrowBtn {
+  width: 32px;
+  height: 32px;
+  background-color: transparent;
+  border: 1px solid rgba(249, 249, 249, 0.2);
+  border-radius: 50%;
+  color: #f9f9f9;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  padding: 0;
+}
+
+.arrowBtn:hover:not(:disabled) {
+  border-color: rgba(249, 249, 249, 0.4);
+  background-color: rgba(249, 249, 249, 0.05);
+}
+
+.arrowBtn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.recommendedList {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  overflow-x: auto;
+}
+
+.recommendedCard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 71px;
+}
+
+.recommendedImage {
+  width: 71px;
+  height: 107px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.recommendedInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.recommendedBookTitle {
+  font-size: 10px;
+  font-weight: 700;
+  color: #f9f9f9;
+  line-height: 1.2;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.recommendedAuthor {
+  font-size: 10px;
+  color: rgba(249, 249, 249, 0.5);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.homeLink {
+  display: block;
+  padding: 12px 20px;
+  background-color: transparent;
+  border: 1px solid rgba(249, 249, 249, 0.2);
+  border-radius: 30px;
+  color: #f9f9f9;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  text-align: center;
+  transition: all 0.3s;
+}
+
+.homeLink:hover {
+  border-color: rgba(249, 249, 249, 0.4);
+  background-color: rgba(249, 249, 249, 0.05);
+}
+
 /* Tablet and Mobile */
 @media (max-width: 1024px) {
   .dashboard {

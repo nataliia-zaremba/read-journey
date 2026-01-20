@@ -64,7 +64,7 @@
   display: grid;
   grid-template-columns: repeat(5, 137px);
   gap: 20px;
-  justify-content: start;
+  justify-content: space-between;
 }
 
 .placeholder {
@@ -78,7 +78,7 @@
 /* Responsive */
 @media (max-width: 1440px) {
   .booksGrid {
-    grid-template-columns: repeat(4, 137px);
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
@@ -88,13 +88,13 @@
   }
 
   .booksGrid {
-    grid-template-columns: repeat(5, 137px);
+    grid-template-columns: repeat(5, 1fr);
   }
 }
 
 @media (max-width: 900px) {
   .booksGrid {
-    grid-template-columns: repeat(4, 137px);
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
@@ -113,7 +113,7 @@
   }
 
   .booksGrid {
-    grid-template-columns: repeat(3, 137px);
+    grid-template-columns: repeat(3, 1fr);
     gap: 16px;
   }
 }
@@ -126,7 +126,7 @@
   }
 
   .booksGrid {
-    grid-template-columns: repeat(2, 137px);
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 

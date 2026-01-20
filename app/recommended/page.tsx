@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Header from "@/components/Header/Header";
 import Dashboard from "@/components/Dashboard/Dashboard";
 import BookCard from "@/components/BookCard/BookCard";
+import BookDetailsModal from "@/components/BookDetailsModal/BookDetailsModal";
 import { booksAPI, Book } from "@/lib/api/books";
 import toast from "react-hot-toast";
 import styles from "./page.module.css";
@@ -14,6 +15,7 @@ export default function RecommendedPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [filters, setFilters] = useState({ title: "", author: "" });
+  const [selectedBook, setSelectedBook] = useState<Book | null>(null);
 
   // Завантаження книг
   const fetchBooks = async (page: number, filterData = filters) => {
@@ -63,8 +65,24 @@ export default function RecommendedPage() {
 
   // Обробка кліку по книзі
   const handleBookClick = (book: Book) => {
-    console.log("Book clicked:", book);
-    // TODO: Відкрити модальне вікно з деталями
+    setSelectedBook(book);
+  };
+
+  // Закриття модалки
+  const handleCloseModal = () => {
+    setSelectedBook(null);
+  };
+
+  // Додавання книги до бібліотеки
+  const handleAddToLibrary = async (bookId: string) => {
+    try {
+      await booksAPI.addBook(bookId);
+      toast.success("Book added to library!");
+      setSelectedBook(null);
+    } catch (error: any) {
+      console.error("Error adding book:", error);
+      toast.error(error.response?.data?.message || "Failed to add book");
+    }
   };
 
   return (
@@ -133,6 +151,14 @@ export default function RecommendedPage() {
           </div>
         </div>
       </main>
+
+      {selectedBook && (
+        <BookDetailsModal
+          book={selectedBook}
+          onClose={handleCloseModal}
+          onAddToLibrary={handleAddToLibrary}
+        />
+      )}
     </>
   );
 }
